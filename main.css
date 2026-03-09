@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
+
+body {
+    background-color: #121212;
+    color: #949497;
+}
+.top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.allstats {
+    display: flex;
+    gap: 12px;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.best {
+    display: flex;
+    align-items: center;
+}
