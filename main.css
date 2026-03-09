@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
 
+*{
+    font-family: Sora;
+}
+
 body {
     background-color: #121212;
     color: #949497;
@@ -22,4 +26,20 @@ header {
 .best {
     display: flex;
     align-items: center;
+}
+.difficulty {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.btntop {
+    background: none;
+    border: 1px solid #717178;
+    color: white;
+    border-radius: 8px;
+    height: max-content;
+}
+.btntop:focus {
+    color: #4CA6FF;
+    border-color: #4CA6FF;
 }
