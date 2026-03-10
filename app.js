@@ -528,3 +528,27 @@ const difficile = [
 	"transdisciplinarite",
 	"multidimensionnel",
 ];
+const $dialog = document.querySelector("dialog");
+const $start = document.querySelector(".start");
+const $btnstart = document.querySelector(".startbtn");
+const $easy = document.querySelector("#easybtn")
+const $medium = document.querySelector("#mediumbtn")
+const $hard = document.querySelector("#hardbtn")
+
+$easy.addEventListener("click", () => {
+	
+	return Math.floor(Math.random()  )
+})
+
+$medium.addEventListener("click", () => {
+
+})
+
+$hard.addEventListener("click", () => {
+
+})
+
+$btnstart.addEventListener("click", (e) => {
+	e.preventDefault();
+	$dialog.close();
+});

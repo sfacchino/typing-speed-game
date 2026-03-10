@@ -43,3 +43,25 @@ header {
     color: #4CA6FF;
     border-color: #4CA6FF;
 }
+.whitetxt {
+    color: white;
+}
+.start {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    border: none;
+}
+.startbtn {
+    background-color: #177DFF;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+}
+dialog {
+    background: transparent;
+    border: none;
+    backdrop-filter: blur(5px);
+}
