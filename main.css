@@ -7,6 +7,7 @@
 body {
     background-color: #121212;
     color: #949497;
+    min-height: 100vh;
 }
 .top {
     display: flex;
