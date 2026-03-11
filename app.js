@@ -1,4 +1,4 @@
-const facile = [
+const easy = [
 	"chat",
 	"chien",
 	"pain",
@@ -185,7 +185,7 @@ const facile = [
 	"ouvre",
 	"ferme",
 ];
-const moyen = [
+const medium = [
 	"maison",
 	"voiture",
 	"ordinateur",
@@ -364,7 +364,7 @@ const moyen = [
 	"developpement",
 	"croissance",
 ];
-const difficile = [
+const hard = [
 	"administration",
 	"organisationnel",
 	"responsabilite",
@@ -534,6 +534,7 @@ const $btnstart = document.querySelector(".startbtn");
 const $easy = document.querySelector("#easybtn")
 const $medium = document.querySelector("#mediumbtn")
 const $hard = document.querySelector("#hardbtn")
+
 
 $easy.addEventListener("click", () => {
 	
