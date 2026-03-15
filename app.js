@@ -528,28 +528,141 @@ const hard = [
 	"transdisciplinarite",
 	"multidimensionnel",
 ];
-const $dialog = document.querySelector("dialog");
-const $start = document.querySelector(".start");
-const $btnstart = document.querySelector(".startbtn");
-const $easy = document.querySelector("#easybtn")
-const $medium = document.querySelector("#mediumbtn")
-const $hard = document.querySelector("#hardbtn")
 
+const dialog = document.querySelector("dialog");
+const startBtn = document.querySelector(".startbtn");
+const restartBtn = document.querySelector("#restartbtn");
+const easyBtn = document.querySelector("#easybtn");
+const mediumBtn = document.querySelector("#mediumbtn");
+const hardBtn = document.querySelector("#hardbtn");
+const textZone = document.querySelector("#spn");
+const inputZone = document.querySelector("#divplay");
+const wpmDisplay = document.querySelector(".wpm .whitetxt");
+const accDisplay = document.querySelector(".accuracy .whitetxt");
+const timeDisplay = document.querySelector(".time .whitetxt");
+const bestDisplay = document.querySelector(".best .whitetxt");
 
-$easy.addEventListener("click", () => {
-	
-	return Math.floor(Math.random()  )
-})
+let difficulty = easy;
+let timeLeft = 60;
+let timerStarted = false;
+let timer;
+let correctChars = 0;
+let totalChars = 0;
 
-$medium.addEventListener("click", () => {
+let bestScore = localStorage.getItem("bestWPM") || 0;
+bestDisplay.textContent = bestScore + "WPM";
 
-})
+function randomWord(list) {
+	return list[Math.floor(Math.random() * list.length)];
+}
 
-$hard.addEventListener("click", () => {
+function generateText() {
+	textZone.innerHTML = "";
+	for (let i = 0; i < 60; i++) {
+		const word = randomWord(difficulty);
+		for (let letter of word) {
+			const span = document.createElement("span");
+			span.textContent = letter;
+			textZone.appendChild(span);
+		}
+		if (i < 59) {
+			const space = document.createElement("span");
+			space.textContent = " ";
+			textZone.appendChild(space);
+		}
+	}
+}
 
-})
+function startTimer() {
+	timer = setInterval(() => {
+		timeLeft--;
+		timeDisplay.textContent =
+			"0:" + (timeLeft < 10 ? "0" + timeLeft : timeLeft);
+		if (timeLeft <= 0) {
+			clearInterval(timer);
+			inputZone.setAttribute("contenteditable", "false");
+		}
+	}, 1000);
+}
 
-$btnstart.addEventListener("click", (e) => {
+function restartTest() {
+	clearInterval(timer);
+	timeLeft = 60;
+	timerStarted = false;
+	correctChars = 0;
+	totalChars = 0;
+	wpmDisplay.textContent = "0";
+	accDisplay.textContent = "100%";
+	timeDisplay.textContent = "0:60";
+	inputZone.textContent = "";
+	inputZone.setAttribute("contenteditable", "true");
+	generateText();
+	inputZone.focus();
+}
+
+startBtn.addEventListener("click", (e) => {
 	e.preventDefault();
-	$dialog.close();
+	dialog.close();
+	generateText();
+	inputZone.focus();
+});
+
+restartBtn.addEventListener("click", restartTest);
+easyBtn.addEventListener("click", () => {
+	difficulty = easy;
+	generateText();
+});
+
+mediumBtn.addEventListener("click", () => {
+	difficulty = medium;
+	generateText();
+});
+
+hardBtn.addEventListener("click", () => {
+	difficulty = hard;
+	generateText();
+});
+
+inputZone.addEventListener("input", () => {
+	if (!timerStarted) {
+		timerStarted = true;
+		startTimer();
+	}
+	let typed = inputZone.textContent;
+	const letters = textZone.querySelectorAll("span");
+	if (typed.length > letters.length) {
+		typed = typed.slice(0, letters.length);
+		inputZone.textContent = typed;
+	}
+	correctChars = 0;
+	totalChars = 0;
+	letters.forEach((span, index) => {
+		const typedLetter = typed[index];
+		if (typedLetter == null) {
+			span.classList.remove("correct", "wrong");
+			return;
+		}
+		totalChars++;
+		if (typedLetter === span.textContent) {
+			span.classList.add("correct");
+			span.classList.remove("wrong");
+			correctChars++;
+		} else {
+			span.classList.add("wrong");
+			span.classList.remove("correct");
+		}
+	});
+
+	const accuracy =
+		totalChars === 0 ? 100 : Math.round((correctChars / totalChars) * 100);
+	accDisplay.textContent = accuracy + "%";
+	const wordsTyped = typed.trim().split(/\s+/).length;
+	const minutes = (60 - timeLeft) / 60;
+	const wpm = minutes > 0 ? Math.round(wordsTyped / minutes) : 0;
+	wpmDisplay.textContent = wpm;
+	if (wpm > bestScore) {
+		bestScore = wpm;
+		localStorage.setItem("bestWPM", bestScore);
+		bestDisplay.textContent = bestScore + "WPM";
+	}
 });
